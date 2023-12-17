@@ -20,8 +20,7 @@
   border-radius: 10px;
   border: 10px;
   padding: 20px;
-  margin-top: auto; /* Make the footer stick to the bottom */
-  margin-bottom: 10px;
+  margin: 10px;
   }
   
   .footerText {

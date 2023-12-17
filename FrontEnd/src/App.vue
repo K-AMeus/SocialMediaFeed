@@ -1,14 +1,17 @@
 <template>
+<div class="main">
+        <Header />
+
   <div class="app-container">
     <LeftSidebar />
     <div class="content-container">
-      <Header />
       <router-view />
-      <Footer />
     </div>
-
     <RightSidebar />
   </div>
+        <Footer />
+
+</div>
 </template>
 
 <script>
@@ -46,9 +49,14 @@ export default {
   flex-grow: 1; /* Allows the main content to take up the remaining space */
   text-align: center;
   color: #2c3e50;
-  min-height: 100vh;
+  
 }
 
-
+.main{
+  flex-grow: 1; /* Allows the main content to take up the remaining space */
+  text-align: center;
+  color: #2c3e50;
+  min-height: 100vh;
+}
 </style>
 

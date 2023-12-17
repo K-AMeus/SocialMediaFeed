@@ -14,15 +14,15 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import LeftSidebar from "@/components/LeftSidebar.vue"; // Import LeftSidebar
-import RightSidebar from "@/components/RightSidebar.vue"; // Import RightSidebar
+import LeftSidebar from "@/components/LeftSidebar.vue"; 
+import RightSidebar from "@/components/RightSidebar.vue"; 
 
 export default {
   components: {
     Header, 
     Footer,
-    LeftSidebar, // Register LeftSidebar
-    RightSidebar, // Register RightSidebar
+    LeftSidebar, 
+    RightSidebar, 
   }
 }
 </script>
@@ -35,9 +35,9 @@ export default {
 }
 
 .app-container {
-  display: flex; /* Use flexbox layout */
-  justify-content: space-between; /* Space out the sidebars and main content */
-  min-height: 100vh; /* Set a minimum height */
+  display: flex;
+  justify-content: space-between; 
+  min-height: 100vh; 
 
 }
 

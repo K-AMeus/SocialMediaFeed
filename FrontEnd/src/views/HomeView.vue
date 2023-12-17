@@ -110,7 +110,7 @@ body {
 
 .post-btn{
   border-radius: 25px;
-     background-color: rgb(56, 100, 196);  /* Change to your preferred color */
+     background-color: rgb(56, 100, 196);  
      color: white;
      border: none;
      padding: 15px 32px;

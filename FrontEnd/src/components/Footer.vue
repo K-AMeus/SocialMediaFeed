@@ -1,6 +1,5 @@
 <template>
     <div class="footer">
-      <!-- Your footer content goes here -->
        <a class = footerText> The End</a>
        <a class = footerText> © Copyright 2023 | HMM: Hanna Mona Meus </a>
     </div>

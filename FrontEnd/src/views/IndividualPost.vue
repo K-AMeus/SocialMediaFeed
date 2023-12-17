@@ -108,7 +108,7 @@
   
   .post-actions button {
     border-radius: 25px;
-     background-color: #4CAF50; /* Change to your preferred color */
+     background-color: #4CAF50; 
      color: white;
      border: none;
      padding: 15px 32px;

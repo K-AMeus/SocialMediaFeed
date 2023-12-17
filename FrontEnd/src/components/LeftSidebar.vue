@@ -1,4 +1,3 @@
-<!-- LeftSidebar.vue -->
 <template>
     <div class="left-sidebar">
       

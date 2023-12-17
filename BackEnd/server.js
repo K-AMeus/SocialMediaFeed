@@ -126,20 +126,20 @@ app.get('/auth/logout', (req, res) => {
     res.status(202).clearCookie('jwt').json({ "Msg": "cookie cleared" }).send
 });
 
-app.post('/post/add-post', async(req, res) => {
+app.post('/post/add-post', async (req, res) => {
   try {
-      const body = req.body.body; // Correctly capture the body content from the request
+      const body = req.body.body;
 
-      if (body) { // Check if the body content exists
+      if (body) {
           const addPost = await pool.query(
-              "INSERT INTO posts(body) values ($1) RETURNING *", [body]
+              "INSERT INTO posts(body, date) values ($1, NOW()) RETURNING *",
+              [body]
           );
-          res.status(201).json({ 
+          res.status(201).json({
               status: "success",
-              post: addPost.rows[0] // Optionally, return the added post
+              post: addPost.rows[0]
           });
       } else {
-          // Handle cases where the body content is missing or invalid
           res.status(400).json({ error: "Post content is missing" });
       }
   } catch (error) {
@@ -147,6 +147,7 @@ app.post('/post/add-post', async(req, res) => {
       res.status(500).json({ error: error.message });
   }
 });
+
 
 
 app.get('/post/get/:id', async (req, res) => {

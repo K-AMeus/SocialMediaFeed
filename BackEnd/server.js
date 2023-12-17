@@ -33,7 +33,7 @@ app.listen(port, () => {
 app.get('/auth/authenticate', async(req, res) => {
     console.log('authentication request has been arrived');
     const token = req.cookies.jwt; // assign the token named jwt to the token const
-    //console.log("token " + token);
+    console.log("token " + token);
     let authenticated = false; // a user is not authenticated until proven the opposite
     try {
         if (token) { //checks if the token exists
@@ -126,18 +126,99 @@ app.get('/auth/logout', (req, res) => {
     res.status(202).clearCookie('jwt').json({ "Msg": "cookie cleared" }).send
 });
 
-app.post('/auth/posts', async(req, res) => {
-    try {
-        console.log("a login request has arrived");
-        const { body, date } = req.body;
-        const posts = await pool.query("SELECT * FROM posts", [body, date]);
-        if (posts.rows.length === 0) return res.status(401).json({ error: "User is not registered" });
+app.post('/post/add-post', async(req, res) => {
 
-        const token = await generateJWT(user.rows[0].id);
-        res
-            .status(201)
-            .send;
+    try {
+        const data = req.body.data;
+
+        if (data != null){
+            const addPost = await pool.query(
+                "INSERT INTO posts(body) values ($1)", [data]
+            );
+            res
+                .status(201)
+                .json({ status: "success" })
+                .send;
+        }
+
     } catch (error) {
         res.status(401).json({ error: error.message });
     }
-});
+})
+
+app.get('/post/get/:id', async (req, res) => {
+    const postId = parseInt(req.params.id);
+
+  try {
+    const result = await pool.query('SELECT * FROM posts WHERE id = $1', [postId]);
+
+    if (result.rows.length > 0) {
+      const post = result.rows[0];
+      res.json(post);
+    } else {
+      res.status(404).json({ error: 'Post not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
+app.put('/post/update/:id', async (req, res) => {
+    const postId = parseInt(req.params.id);
+    const updatedBody = req.body.body;
+  
+    try {
+      const result = await pool.query('UPDATE posts SET body = $1 WHERE id = $2 RETURNING *', [updatedBody, postId]);
+  
+      if (result.rows.length > 0) {
+        const updatedPost = result.rows[0];
+        res.json(updatedPost);
+      } else {
+        res.status(404).json({ error: 'Post not found' });
+      }
+    } catch (error) {
+      console.error('Error updating post:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+
+app.get('/post/get-all', async (req, res) => {
+    try {
+        const posts = await  pool.query(
+            "SELECT * FROM posts"
+        )
+        res.json(posts.rows);
+    } catch (error) {
+        res.status(401).json({ error: error.message });
+    }
+})
+
+app.delete('/post/delete-all', async (req, res) => {
+    try {
+      const deleteposts = await pool.query("DELETE FROM posts");
+  
+      res.json(deleteposts)
+    } catch (error) {
+        res.status(401).json({ error: error.message });
+    }
+  });   
+
+  app.delete('/post/delete/:id', async (req, res) => {
+    const postId = parseInt(req.params.id);
+  
+    try {
+      const result = await pool.query('DELETE FROM posts WHERE id = $1 RETURNING *', [postId]);
+  
+      if (result.rows.length > 0) {
+        const deletedPost = result.rows[0];
+        res.json(deletedPost);
+      } else {
+        res.status(404).json({ error: 'Post not found' });
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });

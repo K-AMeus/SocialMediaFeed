@@ -3,6 +3,9 @@ import HomeView from "../views/HomeView.vue";
 import SignUp from "../views/SignUp.vue";
 import LogIn from "../views/LogIn.vue";
 import auth from "../auth";
+import IndividualPost from "../views/IndividualPost"
+import AddPost from "../views/AddPost"
+
 
 
 
@@ -30,6 +33,34 @@ const routes = [{
         name: "LogIn",
         component: LogIn,
     },
+    {
+        path: '/post/:id',
+        name: 'individual-post',
+        component: IndividualPost,
+    
+        beforeEnter: async(to, from, next) => {
+          let authResult = await auth.authenticated();
+          if (!authResult) {
+            next("/login")
+          } else {
+            next();
+          }
+        }
+    
+      },
+      {
+        path: "/add-post",
+        name: "AddPost",
+        component: AddPost,
+        beforeEnter: async(to, from, next) => {
+          let authResult = await auth.authenticated();
+          if (!authResult) {
+            next("/login")
+          } else {
+            next();
+          }
+        }
+      },
     {
         path: "/about",
         name: "about",

@@ -1,140 +1,127 @@
 <template>
-  <div class="header">
-    <div class="container">
-    <button v-if = "authResult" @click="Logout" class="center">Logout</button>
+  <div class="wrapper">
+    <button  @click="Logout" class="logout">Logout</button>
+    <div v-for="(post) in getPosts">
+      <Post :post="post"/>
     </div>
-    <div class="post-list" v-for="post in posts"   :key="post.index">  
-      <div class="post">
-          <h3>  Title:  {{post.title}} </h3>
-          <p>  <b> Body: </b> {{post.body}} </p>
-      </div>
+    <div class="post-buttons">
+      <button class="post-btn" @click="openAddPost">Add post</button>
+      <button class="post-btn" @click="deleteAllPosts">Delete all</button>
     </div>
-    <button @click="AddPost" class="center">Logout</button>
   </div>
+
+
 </template>
 
 <script>
-// @ is an alias to /src
-import auth from "../auth";
+import Post from "@/components/Post";
+
 
 export default {
-  name: "HomeView",
   components: {
+    Post,
   },
-   data: function() {
-    return {
-    posts:[ ],
-    authResult: auth.authenticated()
-    }
-  },
+
   methods: {
     Logout() {
       fetch("http://localhost:3000/auth/logout", {
-          credentials: 'include', //  Don't forget to specify this if you need cookies
+        credentials: 'include', 
       })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        console.log('jwt removed');
-        //console.log('jwt removed:' + auth.authenticated());
-        this.$router.push("/login");
-        //location.assign("/");
-      })
-      .catch((e) => {
-        console.log(e);
-        console.log("error logout");
-      });
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            console.log('jwt removed');
+            this.$router.push("/login");
+          })
+          .catch((e) => {
+            console.log(e);
+            console.log("error logout");
+          });
     },
-  }, 
+
+    openAddPost(){
+      this.$router.push("/add-post");
+    },
+
+    deleteAllPosts() {
+      this.$store.dispatch('deleteAllPostsAct');
+    },
+  },
+  
+
+  computed: {
+    getPosts() {
+      return this.$store.getters.getPosts;
+    },
+  },
+
   mounted() {
-        fetch('http://localhost:3000/auth/posts')
-        .then((response) => response.json())
-        .then(data => this.posts = data)
-        .catch(err => console.log(err.message))
-    }
+    this.$store.dispatch('getAllPostsAct');
+
+  }
+
 };
 </script>
 
-<style scoped>
-body{
-  margin: 20px 40px;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
-  background: #fafafa;
-  position: relative;
-}
-.post-list{
-  background: rgb(189, 212, 199);
-  margin-bottom: 5px;
-  padding: 3px 5px;
-  border-radius: 10px;
-}
-h3{
+
+<style>
+*{
+    box-sizing: border-box;
     margin: 0;
-  padding: 0;
-  font-family: 'Quicksand', sans-serif;
-  color: #444;
-  background: #7e9756;
+    padding: 0;
 }
-p{
-  background: #796dbd;
+
+.logout {
+  border-radius: 25px;
+  background-color: rgb(56, 100, 196);  
+  color: white;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin: 20px auto;
+  cursor: pointer;
+  transition-duration: 0.4s;
 }
-h1, h2, h3, h4, ul, li, a, input, label, button, div, footer{
-  margin: 0;
-  padding: 0;
-  font-family: 'Quicksand', sans-serif;
-  color: #444;
+
+html{
+    position: relative;
+    min-height: 100%;
 }
-nav{
+
+body {
+    margin: 0 0 100px;
+    font-family: 'Times New Roman', Times, serif, monospace;
+}
+
+.wrapper{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-buttons{
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 80px;
+  width: 650px;
+  margin: 30px auto 0;
 }
-input{
-  padding: 10px 12px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 1em;
-  width: 100%;
+
+.post-btn{
+  border-radius: 25px;
+     background-color: rgb(56, 100, 196);  /* Change to your preferred color */
+     color: white;
+     border: none;
+     padding: 15px 32px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+     margin: 4px 2px;
+     cursor: pointer;
+     transition-duration: 0.4s;
 }
-label{
-  display: block;
-  margin: 20px 0 10px;
-}
-button{
-  margin-top: 30px;
-  border-radius: 36px;
-  background: #FEE996;
-  border:0;
-  font-weight: 700;
-  font-size: 0.8em;
-  display: block;
-  padding: 10px 16px;
-  letter-spacing: 2px;
-}
-nav{
-  display: flex;
-  align-items: center;
-}
-.post {
-    width: 80%;
-    position: relative;
-    padding: 10px;
-    margin: 10px auto;
-    border: 1px solid gray;
-    text-align: left;
-}
-.center {
-  margin: auto;
-  border: 0;
-  padding: 10px 20px;
-  margin-top: 20px;
-  margin: 10px auto;
-  width: 30%; 
-}
-.container {
-  display: flex;
-  justify-content: center;
-}
+
 </style>

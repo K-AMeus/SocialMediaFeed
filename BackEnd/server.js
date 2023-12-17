@@ -127,24 +127,27 @@ app.get('/auth/logout', (req, res) => {
 });
 
 app.post('/post/add-post', async(req, res) => {
+  try {
+      const body = req.body.body; // Correctly capture the body content from the request
 
-    try {
-        const data = req.body.data;
+      if (body) { // Check if the body content exists
+          const addPost = await pool.query(
+              "INSERT INTO posts(body) values ($1) RETURNING *", [body]
+          );
+          res.status(201).json({ 
+              status: "success",
+              post: addPost.rows[0] // Optionally, return the added post
+          });
+      } else {
+          // Handle cases where the body content is missing or invalid
+          res.status(400).json({ error: "Post content is missing" });
+      }
+  } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: error.message });
+  }
+});
 
-        if (data != null){
-            const addPost = await pool.query(
-                "INSERT INTO posts(body) values ($1)", [data]
-            );
-            res
-                .status(201)
-                .json({ status: "success" })
-                .send;
-        }
-
-    } catch (error) {
-        res.status(401).json({ error: error.message });
-    }
-})
 
 app.get('/post/get/:id', async (req, res) => {
     const postId = parseInt(req.params.id);

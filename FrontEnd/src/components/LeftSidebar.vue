@@ -1,7 +1,7 @@
 <!-- LeftSidebar.vue -->
 <template>
     <div class="left-sidebar">
-      <!-- Your left sidebar content goes here -->
+      
     </div>
   </template>
   
@@ -13,6 +13,7 @@
   
   <style scoped>
   .left-sidebar {
+    
     flex: 0 0 7%; 
     background-color: #999;
     border-radius: 10px;

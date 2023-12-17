@@ -2,11 +2,10 @@
     <nav class = nav>
       <div>
         <router-link to="/">Home</router-link> |
-        <router-link to="/signup">Signup</router-link>
-      </div>
+        <router-link to="/about">Contacts</router-link>
+    </div>
       
     </nav>
-    <router-view/>
   </template>
   
   <script>
@@ -16,8 +15,7 @@
   </script>
   
   <style scoped>
-  /* Your header component styles go here */
-  /* Include the styles from your CSS file */
+ 
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100;9..40,300&display=swap');
   
   .header {
@@ -36,6 +34,8 @@
     background-color: #999;
     border-radius: 10px; 
     padding: 20px;
+    margin: 10px;
+
   }
   
   nav a {

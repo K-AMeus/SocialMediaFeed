@@ -16,11 +16,13 @@
 
   
   .footer{
-  text-align: center;
-    background-color: #999; 
-    border-radius: 10px; 
-    border: 10px;
-    padding: 20px;
+     text-align: center;
+  background-color: #999;
+  border-radius: 10px;
+  border: 10px;
+  padding: 20px;
+  margin-top: auto; /* Make the footer stick to the bottom */
+  margin-bottom: 10px;
   }
   
   .footerText {
@@ -28,8 +30,4 @@
     display: block; /* Make the element a block-level element */
     margin-bottom: 10px;
   }
-  /* Your footer component styles go here */
-  /* Include the styles from your CSS file */
-  /* Add the rest of your styles from the CSS file */
-  
   </style>

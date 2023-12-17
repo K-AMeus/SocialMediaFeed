@@ -1,6 +1,6 @@
 <template>
     <div class="right-sidebar">
-      <!-- Your sidebar content goes here -->
+      
     </div>
   </template>
   
@@ -12,6 +12,7 @@
   
   <style scoped>
   .right-sidebar {
+    
     flex: 0 0 7%; /* 7% width, not growing or shrinking */
     background-color: #999;
     border-radius: 10px;

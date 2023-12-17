@@ -92,7 +92,6 @@ html{
 }
 
 body {
-    margin: 0 0 100px;
     font-family: 'Times New Roman', Times, serif, monospace;
 }
 
